@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "microcosm-auth"
+version = "0.1.0"
+description = "Microcosm Auth SDK for Python - Simple and secure authentication"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Microcosm Team", email = "dev@microcosm.money"}
+]
+keywords = ["microcosm", "auth", "oauth", "authentication", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Flask",
+    "Framework :: FastAPI",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP :: Session",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.optional-dependencies]
+flask = [
+    "flask>=2.0.0",
+]
+fastapi = [
+    "fastapi>=0.68.0",
+]
+all = [
+    "flask>=2.0.0",
+    "fastapi>=0.68.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.20.0",
+    "httpx>=0.24.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/microcosm-platform/microcosm-auth-python"
+"Documentation" = "https://microcosm.money/docs/auth-sdk"
+"Bug Tracker" = "https://github.com/microcosm-platform/microcosm-auth-python/issues"
+
+[tool.setuptools.packages.find]
+include = ["microcosm_auth*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
