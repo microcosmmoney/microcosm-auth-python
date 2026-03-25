@@ -1,7 +1,4 @@
-# microcosm_auth/models.py
-"""
-Microcosm Auth SDK - Data Models
-"""
+# Developed by AI Agent
 
 from dataclasses import dataclass, field
 from typing import Optional, Dict, Any
@@ -9,7 +6,6 @@ from typing import Optional, Dict, Any
 
 @dataclass
 class User:
-    """Microcosm 用户对象"""
     uid: str
     email: str
     role: str
@@ -20,7 +16,6 @@ class User:
     extra: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        """转换为字典"""
         result = {
             'uid': self.uid,
             'email': self.email,
@@ -36,7 +31,6 @@ class User:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'User':
-        """从字典创建用户对象"""
         known_keys = {'uid', 'email', 'role', 'display_name', 'avatar_url',
                       'email_verified', 'station_id'}
         extra = {k: v for k, v in data.items() if k not in known_keys}
@@ -53,17 +47,14 @@ class User:
         )
 
     def has_role(self, *roles: str) -> bool:
-        """检查用户是否拥有指定角色之一"""
         return self.role in roles
 
     def is_admin(self) -> bool:
-        """是否为管理员"""
         return self.role == 'admin'
 
 
 @dataclass
 class TokenInfo:
-    """Token 信息"""
     active: bool
     user: Optional[User] = None
     exp: Optional[int] = None
@@ -73,7 +64,6 @@ class TokenInfo:
 
     @classmethod
     def from_introspect(cls, data: Dict[str, Any]) -> 'TokenInfo':
-        """从 introspect API 响应创建"""
         user = None
         if data.get('active'):
             user = User.from_dict(data)

@@ -53,9 +53,9 @@ dev = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/microcosm-platform/microcosm-auth-python"
+"Homepage" = "https://github.com/microcosmmoney/microcosm-auth-python"
 "Documentation" = "https://microcosm.money/docs/auth-sdk"
-"Bug Tracker" = "https://github.com/microcosm-platform/microcosm-auth-python/issues"
+"Bug Tracker" = "https://github.com/microcosmmoney/microcosm-auth-python/issues"
 
 [tool.setuptools.packages.find]
 include = ["microcosm_auth*"]

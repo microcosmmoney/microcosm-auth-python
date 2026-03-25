@@ -1,32 +1,32 @@
 # Microcosm Auth SDK for Python
 
-一个简单、安全的 Python 认证库，让任何项目通过几行代码接入 Microcosm 认证系统。
+A simple, secure Python authentication library that lets any project integrate with the Microcosm auth system in just a few lines of code.
 
-## 特性
+## Features
 
-- **零配置启动** - 只需 `client_id` 即可运行
-- **多框架支持** - Flask 和 FastAPI 开箱即用
-- **自动 Token 缓存** - 减少 introspect 调用
-- **类型安全** - 完整的类型注解
-- **安全第一** - 遵循 OAuth 2.0 最佳实践
+- **Zero-config startup** - Only a `client_id` is needed to get started
+- **Multi-framework support** - Flask and FastAPI out of the box
+- **Automatic token caching** - Reduces introspect API calls
+- **Type safe** - Full type annotations
+- **Security first** - Follows OAuth 2.0 best practices
 
-## 安装
+## Installation
 
 ```bash
-# 基础安装
+# Basic install
 pip install microcosm-auth
 
-# Flask 支持
+# Flask support
 pip install microcosm-auth[flask]
 
-# FastAPI 支持
+# FastAPI support
 pip install microcosm-auth[fastapi]
 
-# 完整安装
+# Full install
 pip install microcosm-auth[all]
 ```
 
-## 快速开始
+## Quick Start
 
 ### Flask
 
@@ -67,84 +67,84 @@ async def admin_route(user: User = Depends(require_role('admin'))):
     return {'message': 'Admin only'}
 ```
 
-## 配置
+## Configuration
 
-### 环境变量
+### Environment Variables
 
-| 变量 | 说明 | 默认值 |
-|------|------|--------|
+| Variable | Description | Default |
+|----------|-------------|---------|
 | `MICROCOSM_CLIENT_ID` | OAuth Client ID | - |
 | `MICROCOSM_CLIENT_SECRET` | OAuth Client Secret | - |
-| `MICROCOSM_AUTH_ENDPOINT` | 认证服务地址 | `https://microcosm.money` |
+| `MICROCOSM_AUTH_ENDPOINT` | Auth service URL | `https://microcosm.money` |
 
-### 构造函数参数
+### Constructor Parameters
 
 ```python
 auth = MicrocosmAuth(
     client_id='your_client_id',        # OAuth Client ID
-    client_secret='your_secret',       # OAuth Client Secret (可选)
-    auth_endpoint='https://...',       # 认证服务地址
-    cache_ttl=60,                      # Token 缓存时间（秒）
-    debug=False,                       # 调试模式
+    client_secret='your_secret',       # OAuth Client Secret (optional)
+    auth_endpoint='https://...',       # Auth service URL
+    cache_ttl=60,                      # Token cache duration (seconds)
+    debug=False,                       # Debug mode
 )
 ```
 
-## API 参考
+## API Reference
 
 ### MicrocosmAuth
 
-核心认证类，支持 Flask 和通用 Python 应用。
+Core authentication class supporting Flask and general Python applications.
 
-#### 方法
+#### Methods
 
-| 方法 | 说明 |
-|------|------|
-| `verify_token(token)` | 验证 Access Token，返回 User 或 None |
-| `introspect_token(token)` | 调用 introspect API，返回 TokenInfo |
-| `require_auth` | Flask 装饰器，要求登录 |
-| `require_role(*roles)` | Flask 装饰器，要求特定角色 |
-| `current_user` | 当前请求的用户（需先调用 require_auth） |
-| `clear_cache()` | 清除 Token 缓存 |
+| Method | Description |
+|--------|-------------|
+| `verify_token(token)` | Verify an access token, returns User or None |
+| `introspect_token(token)` | Call introspect API, returns TokenInfo |
+| `require_auth` | Flask decorator, requires authentication |
+| `require_role(*roles)` | Flask decorator, requires specific role(s) |
+| `current_user` | Current request user (requires prior `require_auth` call) |
+| `clear_cache()` | Clear token cache |
 
-### FastAPI 依赖
+### FastAPI Dependencies
 
-| 依赖 | 说明 |
-|------|------|
-| `get_current_user` | 获取当前用户（必须登录） |
-| `get_optional_user` | 获取当前用户（可选登录） |
-| `require_role(*roles)` | 要求特定角色 |
-| `require_admin` | 要求管理员权限 |
+| Dependency | Description |
+|------------|-------------|
+| `get_current_user` | Get current user (authentication required) |
+| `get_optional_user` | Get current user (authentication optional) |
+| `require_role(*roles)` | Require specific role(s) |
+| `require_admin` | Require admin privileges |
 
-### User 对象
+### User Object
 
 ```python
 @dataclass
 class User:
-    uid: str                    # 用户 ID
-    email: str                  # 邮箱
-    role: str                   # 角色 (admin/trader/user)
-    display_name: str | None    # 显示名称
-    avatar_url: str | None      # 头像 URL
-    email_verified: bool        # 邮箱是否验证
-    station_id: int | None      # 站点 ID
+    uid: str                    # User ID
+    email: str                  # Email address
+    role: str                   # Role (admin/trader/user)
+    display_name: str | None    # Display name
+    avatar_url: str | None      # Avatar URL
+    email_verified: bool        # Whether email is verified
+    station_id: int | None      # Station ID
 ```
 
-## 错误处理
+## Error Handling
 
-SDK 定义了以下异常类：
+The SDK defines the following exception classes:
 
-| 异常 | HTTP 状态 | 说明 |
-|------|----------|------|
-| `UnauthorizedError` | 401 | 未提供认证信息 |
-| `InvalidTokenError` | 401 | Token 无效 |
-| `TokenExpiredError` | 401 | Token 已过期 |
-| `ForbiddenError` | 403 | 权限不足 |
-| `ConfigurationError` | 500 | SDK 未配置 |
-| `IntrospectError` | 500 | Introspect API 调用失败 |
+| Exception | HTTP Status | Description |
+|-----------|-------------|-------------|
+| `UnauthorizedError` | 401 | Missing authentication credentials |
+| `InvalidTokenError` | 401 | Invalid token |
+| `TokenExpiredError` | 401 | Token has expired |
+| `ForbiddenError` | 403 | Insufficient permissions |
+| `ConfigurationError` | 500 | SDK not configured |
+| `IntrospectError` | 500 | Introspect API call failed |
 
-## 最佳实践
+## Best Practices
 
-### 1. 使用环境变量
+### 1. Use Environment Variables
 
 ```bash
 export MICROCOSM_CLIENT_ID=your_client_id
@@ -152,32 +152,32 @@ export MICROCOSM_CLIENT_SECRET=your_secret
 ```
 
 ```python
-# 自动从环境变量读取
+# Automatically reads from environment variables
 auth = MicrocosmAuth()
 ```
 
-### 2. 生产环境使用 Redis 缓存
+### 2. Use Redis Cache in Production
 
-默认使用内存缓存，生产环境建议配置 Redis：
+The default in-memory cache is suitable for development. For production, consider configuring Redis:
 
 ```python
-# TODO: Redis 缓存支持将在 v0.2.0 添加
+# Redis cache support coming in v0.2.0
 ```
 
-### 3. 调试模式
+### 3. Debug Mode
 
-开发时启用调试日志：
+Enable debug logging during development:
 
 ```python
 auth = MicrocosmAuth(debug=True)
 ```
 
-## 许可证
+## License
 
 MIT License
 
-## 链接
+## Links
 
-- [GitHub](https://github.com/microcosm-platform/microcosm-auth-python)
-- [文档](https://microcosm.money/docs/auth-sdk)
-- [问题反馈](https://github.com/microcosm-platform/microcosm-auth-python/issues)
+- [GitHub](https://github.com/microcosmmoney/microcosm-auth-python)
+- [Documentation](https://microcosm.money/docs/auth-sdk)
+- [Issue Tracker](https://github.com/microcosmmoney/microcosm-auth-python/issues)
