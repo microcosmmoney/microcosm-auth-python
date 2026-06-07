@@ -106,10 +106,6 @@ class MicrocosmAuth(BaseMicrocosmAuth):
         if auth_header.startswith('Bearer '):
             return auth_header[7:]
 
-        token = request.args.get('access_token')
-        if token:
-            return token
-
         token = request.cookies.get('mc_access_token')
         if token:
             return token
